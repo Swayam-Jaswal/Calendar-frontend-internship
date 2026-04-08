@@ -12,8 +12,7 @@
 body {
   margin: 0;
   min-width: 320px;
-  height: 100dvh;
-  overflow: hidden;
+  min-height: 100vh;
 }
 
 button,
@@ -22,18 +21,8 @@ textarea {
 }
 
 #root {
-  height: 100dvh;
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-}
-
-@media (max-width: 740px) {
-  body {
-    overflow: auto;
-    height: auto;
-  }
-  #root {
-    height: auto;
-    min-height: 100dvh;
-  }
+  justify-content: center;
+  align-items: center;
 }

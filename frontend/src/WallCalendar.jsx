@@ -344,7 +344,7 @@ export default function WallCalendar() {
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex: 1, height: "100%", width: "100%" }}>
+    <div style={{ padding: "1rem 0", fontFamily: "system-ui, -apple-system, sans-serif" }}>
       {/* Injected animation + hover styles */}
       <style>{`
         @keyframes wcalLeft  { from { opacity:0; transform:translateX(20px);  } to { opacity:1; transform:translateX(0); } }
@@ -363,9 +363,11 @@ export default function WallCalendar() {
         style={{
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "1fr 310px",
+          border: "0.5px solid #d0d0d0",
+          borderRadius: 12,
+          overflow: "hidden",
           background: "#fff",
-          flex: 1,
-          height: "100%",
+          minHeight: isMobile ? "auto" : 580,
         }}
       >
         {/* ═══════════ LEFT PANEL ═══════════ */}
@@ -549,29 +551,15 @@ export default function WallCalendar() {
           </div>
 
           {/* Notes header */}
-          <div style={{ padding: "12px 14px 8px", borderBottom: "0.5px solid #ebebeb", background: "#fff", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 500, color: "#9e9e9e", letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 2 }}>
-                Notes
-              </div>
-              <div style={{ fontSize: 12, color: "#bdbdbd" }}>
-                {rangeStart
-                  ? `Selected: ${fmtRange(rangeStart, rangeEnd)}`
-                  : "Click a date to start selection"}
-              </div>
+          <div style={{ padding: "12px 14px 8px", borderBottom: "0.5px solid #ebebeb", background: "#fff" }}>
+            <div style={{ fontSize: 12, fontWeight: 500, color: "#9e9e9e", letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 2 }}>
+              Notes
             </div>
-            <button
-               className="wcal-export"
-               onClick={exportNotes}
-               style={{
-                 fontSize: 10, color: "#9e9e9e", background: "#fff",
-                 border: "0.5px solid #d0d0d0", borderRadius: 4,
-                 padding: "3px 8px", cursor: "pointer", fontFamily: "inherit",
-                 transition: "background 0.15s",
-               }}
-            >
-              Export
-            </button>
+            <div style={{ fontSize: 12, color: "#bdbdbd" }}>
+              {rangeStart
+                ? `Selected: ${fmtRange(rangeStart, rangeEnd)}`
+                : "Click a date to start selection"}
+            </div>
           </div>
 
           {/* Range chip */}
