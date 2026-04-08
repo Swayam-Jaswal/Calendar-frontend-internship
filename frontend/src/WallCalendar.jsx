@@ -290,7 +290,7 @@ export default function WallCalendar() {
     return "50%";
   };
   return (
-    <div style={{ padding: "1rem 0", fontFamily: "system-ui, -apple-system, sans-serif" }}>
+    <div style={{ padding: "1rem", fontFamily: "system-ui, -apple-system, sans-serif", maxWidth: "100%", boxSizing: "border-box" }}>
       <style>{`
         @keyframes wcalLeft  { from { opacity:0; transform:translateX(20px);  } to { opacity:1; transform:translateX(0); } }
         @keyframes wcalRight { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }
