@@ -1,12 +1,4 @@
-// WallCalendar.jsx
-// Drop this file into your Next.js/React project and import it.
-// Usage in a page: import WallCalendar from "@/components/WallCalendar";
-//                  export default function Page() { return <WallCalendar />; }
-// No extra dependencies needed — only React.
-
 import React, { useState, useEffect } from "react";
-
-// ─── THEME CONFIG ─────────────────────────────────────────────────────────────
 const THEMES = {
   ocean: {
     name: "Ocean",
@@ -49,16 +41,12 @@ const THEMES = {
     figure: "#4a148c",
   },
 };
-
-// ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const MONTHS = [
   "January","February","March","April","May","June",
   "July","August","September","October","November","December",
 ];
 const SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const WEEKDAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-
-// Indian public holidays — extend as needed
 const HOLIDAYS = new Set([
   "2026-01-01","2026-01-14","2026-01-26","2026-03-20","2026-04-02","2026-04-06",
   "2026-04-10","2026-04-14","2026-05-01","2026-08-15","2026-09-05","2026-10-02",
@@ -66,26 +54,20 @@ const HOLIDAYS = new Set([
   "2025-01-26","2025-03-17","2025-04-10","2025-04-14","2025-08-15","2025-10-02",
   "2025-10-22","2025-11-01","2025-11-05","2025-12-25",
 ]);
-
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
 const pad = (n) => String(n).padStart(2, "0");
 const dateKey = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
 const monthKey = (y, m) => `${y}-${m}`;
 const daysInMonth = (y, m) => new Date(y, m + 1, 0).getDate();
-const firstDayOffset = (y, m) => (new Date(y, m, 1).getDay() + 6) % 7; // Mon = 0
-
+const firstDayOffset = (y, m) => (new Date(y, m, 1).getDay() + 6) % 7; 
 const fmtLabel = (dk) => {
   const [y, mo, d] = dk.split("-");
   return `${SHORT[+mo - 1]} ${+d}`;
 };
-
 const fmtRange = (s, e) => {
   if (!e || s === e) return fmtLabel(s);
   const [as, ae] = s <= e ? [s, e] : [e, s];
   return `${fmtLabel(as)} – ${fmtLabel(ae)}`;
 };
-
-// ─── HERO SVG (changes with theme) ───────────────────────────────────────────
 function HeroSVG({ theme }) {
   const { sky, mountains, sun, figure } = theme;
   return (
@@ -95,19 +77,15 @@ function HeroSVG({ theme }) {
       style={{ width: "100%", height: "100%", display: "block" }}
       preserveAspectRatio="xMidYMid slice"
     >
-      {/* sky */}
       <rect width="500" height="220" fill={sky[0]} />
       <ellipse cx="70" cy="50" rx="80" ry="30" fill={sky[1]} opacity="0.75" />
       <ellipse cx="420" cy="30" rx="100" ry="28" fill={sky[1]} opacity="0.65" />
-      {/* sun */}
       <circle cx="55" cy="32" r="22" fill={sun} opacity="0.9" />
       <circle cx="55" cy="32" r="17" fill={sun} />
-      {/* mountain layers */}
       <polygon points="0,220 110,115 185,155 265,85 345,130 420,65 480,108 500,88 500,220" fill={mountains[0]} />
       <polygon points="0,220 85,155 165,182 230,132 315,168 400,102 465,148 500,128 500,220" fill={mountains[1]} />
       <polygon points="0,220 55,192 138,208 205,180 278,198 360,172 440,192 500,178 500,220" fill={mountains[2]} />
       <polygon points="0,220 0,212 75,219 155,210 235,217 320,207 405,216 500,209 500,220" fill={mountains[3]} />
-      {/* climber */}
       <g transform="translate(245,92)">
         <circle cx="0" cy="-19" r="5.5" fill={figure} />
         <line x1="0" y1="-13" x2="0" y2="5" stroke={figure} strokeWidth="2.8" strokeLinecap="round" />
@@ -115,15 +93,12 @@ function HeroSVG({ theme }) {
         <line x1="0" y1="-4" x2="9" y2="-1" stroke={figure} strokeWidth="2.2" strokeLinecap="round" />
         <line x1="0" y1="5" x2="-6" y2="15" stroke={figure} strokeWidth="2.2" strokeLinecap="round" />
         <line x1="0" y1="5" x2="6" y2="15" stroke={figure} strokeWidth="2.2" strokeLinecap="round" />
-        {/* ice axe */}
         <line x1="9" y1="-1" x2="18" y2="-10" stroke={figure} strokeWidth="1.5" strokeLinecap="round" />
         <line x1="15" y1="-12" x2="22" y2="-8" stroke={figure} strokeWidth="1.5" strokeLinecap="round" />
       </g>
     </svg>
   );
 }
-
-// ─── SPIRAL BINDING ───────────────────────────────────────────────────────────
 function SpiralBinding() {
   return (
     <div
@@ -155,8 +130,6 @@ function SpiralBinding() {
     </div>
   );
 }
-
-// ─── LEGEND DOT ───────────────────────────────────────────────────────────────
 function LegendDot({ color, label }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: "#999" }}>
@@ -165,8 +138,6 @@ function LegendDot({ color, label }) {
     </div>
   );
 }
-
-// ─── NOTE CARD ────────────────────────────────────────────────────────────────
 function NoteCard({ label, text, accentColor, onRemove }) {
   return (
     <div
@@ -193,49 +164,39 @@ function NoteCard({ label, text, accentColor, onRemove }) {
     </div>
   );
 }
-
-// ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 export default function WallCalendar() {
   const today = new Date();
   const [cur, setCur] = useState({ y: today.getFullYear(), m: today.getMonth() });
   const [themeKey, setThemeKey] = useState("ocean");
   const [rangeStart, setRangeStart] = useState(null);
   const [rangeEnd, setRangeEnd] = useState(null);
-  const [notes, setNotes] = useState({});       // { "2026-04-10": ["note 1", ...] }
-  const [monthNotes, setMonthNotes] = useState({}); // { "2026-3": "memo text" }
+  const [notes, setNotes] = useState({});       
+  const [monthNotes, setMonthNotes] = useState({}); 
   const [noteInput, setNoteInput] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [animClass, setAnimClass] = useState("");
-
   const theme = THEMES[themeKey];
   const acc = theme.accent;
   const accL = theme.accentLight;
-
-  // ── Responsive detection ──────────────────────────────────────────────────
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 740);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
-
-  // ── Persist state ─────────────────────────────────────────────────────────
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem("wallcal_v1") || "{}");
       if (saved.notes) setNotes(saved.notes);
       if (saved.monthNotes) setMonthNotes(saved.monthNotes);
       if (saved.themeKey && THEMES[saved.themeKey]) setThemeKey(saved.themeKey);
-    } catch { /* ignore */ }
+    } catch {}
   }, []);
-
   useEffect(() => {
     try {
       localStorage.setItem("wallcal_v1", JSON.stringify({ notes, monthNotes, themeKey }));
-    } catch { /* ignore */ }
+    } catch {}
   }, [notes, monthNotes, themeKey]);
-
-  // ── Navigation ────────────────────────────────────────────────────────────
   const navigate = (dir) => {
     const cls = dir === 1 ? "wcal-anim-left" : "wcal-anim-right";
     setAnimClass(cls);
@@ -249,8 +210,6 @@ export default function WallCalendar() {
     setRangeStart(null);
     setRangeEnd(null);
   };
-
-  // ── Day click: range selection ─────────────────────────────────────────
   const onDayClick = (dk) => {
     if (!rangeStart || rangeEnd) {
       setRangeStart(dk);
@@ -261,8 +220,6 @@ export default function WallCalendar() {
       setRangeEnd(dk);
     }
   };
-
-  // ── Sorted range ─────────────────────────────────────────────────────────
   const getSortedRange = () => {
     if (!rangeStart) return { sd: null, ed: null };
     if (!rangeEnd || rangeStart === rangeEnd) return { sd: rangeStart, ed: rangeStart };
@@ -271,18 +228,15 @@ export default function WallCalendar() {
       : { sd: rangeEnd, ed: rangeStart };
   };
   const { sd, ed } = getSortedRange();
-
-  // ── Notes actions ─────────────────────────────────────────────────────────
   const addNote = () => {
     if (!noteInput.trim() || !rangeStart) return;
-    const key = sd; // anchor note to range start
+    const key = sd; 
     const text = rangeEnd && rangeEnd !== rangeStart
       ? `[${fmtRange(rangeStart, rangeEnd)}] ${noteInput.trim()}`
       : noteInput.trim();
     setNotes((prev) => ({ ...prev, [key]: [...(prev[key] || []), text] }));
     setNoteInput("");
   };
-
   const removeNote = (k, i) => {
     setNotes((prev) => {
       const arr = [...(prev[k] || [])];
@@ -290,7 +244,6 @@ export default function WallCalendar() {
       return { ...prev, [k]: arr };
     });
   };
-
   const exportNotes = () => {
     const mk = monthKey(cur.y, cur.m);
     const lines = [`=== ${MONTHS[cur.m]} ${cur.y} ===`, ""];
@@ -306,8 +259,6 @@ export default function WallCalendar() {
     a.download = `notes-${cur.y}-${pad(cur.m + 1)}.txt`;
     a.click();
   };
-
-  // ── Build calendar cells data ─────────────────────────────────────────────
   const offset = firstDayOffset(cur.y, cur.m);
   const dim = daysInMonth(cur.y, cur.m);
   const todayKey = dateKey(today.getFullYear(), today.getMonth(), today.getDate());
@@ -316,15 +267,12 @@ export default function WallCalendar() {
   const curNoteKeys = Object.keys(notes)
     .filter((k) => k.startsWith(curPrefix) && notes[k]?.length)
     .sort();
-
-  // ── Cell state helpers ────────────────────────────────────────────────────
   const isStart = (dk) => sd && dk === sd;
   const isEnd = (dk) => ed && dk === ed && ed !== sd;
   const inRange = (dk) => sd && ed && dk > sd && dk < ed;
   const isToday = (dk) => dk === todayKey;
   const isHoliday = (dk) => HOLIDAYS.has(dk);
   const hasNote = (dk) => notes[dk]?.length > 0;
-
   const cellBg = (dk) => {
     if (isStart(dk) || isEnd(dk)) return acc;
     if (inRange(dk)) return accL;
@@ -341,11 +289,8 @@ export default function WallCalendar() {
     if (inRange(dk)) return 0;
     return "50%";
   };
-
-  // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div style={{ padding: "1rem 0", fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      {/* Injected animation + hover styles */}
       <style>{`
         @keyframes wcalLeft  { from { opacity:0; transform:translateX(20px);  } to { opacity:1; transform:translateX(0); } }
         @keyframes wcalRight { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }
@@ -358,7 +303,6 @@ export default function WallCalendar() {
         .wcal-export:hover  { background: #f5f5f5 !important; }
         .wcal-thmbtn:hover  { transform: scale(1.15); }
       `}</style>
-
       <div
         style={{
           display: "grid",
@@ -370,15 +314,10 @@ export default function WallCalendar() {
           minHeight: isMobile ? "auto" : 580,
         }}
       >
-        {/* ═══════════ LEFT PANEL ═══════════ */}
         <div style={{ display: "flex", flexDirection: "column", background: "#fff" }}>
-          {/* Spiral */}
           <SpiralBinding />
-
-          {/* Hero image */}
           <div style={{ position: "relative", height: 220, overflow: "hidden", flexShrink: 0 }}>
             <HeroSVG theme={theme} />
-            {/* Month badge */}
             <div
               style={{
                 position: "absolute", bottom: 0, right: 0,
@@ -393,8 +332,6 @@ export default function WallCalendar() {
               </div>
             </div>
           </div>
-
-          {/* Nav bar */}
           <div
             style={{
               display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -427,10 +364,7 @@ export default function WallCalendar() {
               ›
             </button>
           </div>
-
-          {/* Calendar grid */}
           <div style={{ padding: "10px 14px 14px", flex: 1 }}>
-            {/* Day headers */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", marginBottom: 4 }}>
               {WEEKDAYS.map((d, i) => (
                 <div
@@ -444,15 +378,10 @@ export default function WallCalendar() {
                 </div>
               ))}
             </div>
-
-            {/* Day cells */}
             <div className={animClass} style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 2 }}>
-              {/* Empty offset cells */}
               {Array.from({ length: offset }).map((_, i) => (
                 <div key={`e${i}`} style={{ aspectRatio: "1" }} />
               ))}
-
-              {/* Day cells */}
               {Array.from({ length: dim }).map((_, i) => {
                 const d = i + 1;
                 const dk = dateKey(cur.y, cur.m, d);
@@ -474,7 +403,6 @@ export default function WallCalendar() {
                     }}
                   >
                     {d}
-                    {/* Today dot */}
                     {isToday(dk) && !selected && (
                       <span
                         style={{
@@ -484,7 +412,6 @@ export default function WallCalendar() {
                         }}
                       />
                     )}
-                    {/* Holiday dot */}
                     {isHoliday(dk) && !selected && (
                       <span
                         style={{
@@ -493,7 +420,6 @@ export default function WallCalendar() {
                         }}
                       />
                     )}
-                    {/* Has-note dot */}
                     {hasNote(dk) && !selected && (
                       <span
                         style={{
@@ -506,8 +432,6 @@ export default function WallCalendar() {
                 );
               })}
             </div>
-
-            {/* Legend */}
             <div style={{ display: "flex", gap: 14, marginTop: 12, flexWrap: "wrap" }}>
               <LegendDot color={acc} label="Today" />
               <LegendDot color="#ff7043" label="Holiday" />
@@ -516,8 +440,6 @@ export default function WallCalendar() {
             </div>
           </div>
         </div>
-
-        {/* ═══════════ RIGHT PANEL ═══════════ */}
         <div
           style={{
             borderLeft: isMobile ? "none" : "0.5px solid #ebebeb",
@@ -525,7 +447,6 @@ export default function WallCalendar() {
             display: "flex", flexDirection: "column", background: "#fafafa",
           }}
         >
-          {/* Theme switcher */}
           <div
             style={{
               display: "flex", alignItems: "center", gap: 8, padding: "8px 14px",
@@ -549,8 +470,6 @@ export default function WallCalendar() {
             ))}
             <span style={{ fontSize: 11, color: "#bdbdbd" }}>{theme.name}</span>
           </div>
-
-          {/* Notes header */}
           <div style={{ padding: "12px 14px 8px", borderBottom: "0.5px solid #ebebeb", background: "#fff" }}>
             <div style={{ fontSize: 12, fontWeight: 500, color: "#9e9e9e", letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 2 }}>
               Notes
@@ -561,8 +480,6 @@ export default function WallCalendar() {
                 : "Click a date to start selection"}
             </div>
           </div>
-
-          {/* Range chip */}
           <div
             style={{
               padding: "7px 14px", minHeight: 36, display: "flex", alignItems: "center",
@@ -592,8 +509,6 @@ export default function WallCalendar() {
               <span style={{ fontSize: 12, color: "#e0e0e0" }}>No range selected</span>
             )}
           </div>
-
-          {/* Month memo */}
           <div
             style={{
               margin: "10px 14px 0",
@@ -620,8 +535,6 @@ export default function WallCalendar() {
               }}
             />
           </div>
-
-          {/* Date notes list */}
           <div
             style={{
               flex: 1, padding: "10px 14px", overflowY: "auto",
@@ -646,8 +559,6 @@ export default function WallCalendar() {
               )
             )}
           </div>
-
-          {/* Add note input */}
           <div
             style={{
               padding: "10px 14px", borderTop: "0.5px solid #ebebeb", background: "#fff",
@@ -695,6 +606,20 @@ export default function WallCalendar() {
             </div>
           </div>
         </div>
+      </div>
+      <div style={{ marginTop: 8, display: "flex", justifyContent: "flex-end" }}>
+        <button
+          className="wcal-export"
+          onClick={exportNotes}
+          style={{
+            fontSize: 12, color: "#9e9e9e", background: "#fff",
+            border: "0.5px solid #d0d0d0", borderRadius: 6,
+            padding: "5px 14px", cursor: "pointer", fontFamily: "inherit",
+            transition: "background 0.15s",
+          }}
+        >
+          Export notes (.txt)
+        </button>
       </div>
     </div>
   );
