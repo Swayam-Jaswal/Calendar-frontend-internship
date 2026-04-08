@@ -1,0 +1,319 @@
+.wall-calendar {
+  padding-top: 12px;
+}
+
+.wall-calendar__sheet {
+  background: #fdfcf8;
+  border: 1px solid rgba(103, 90, 72, 0.18);
+  border-radius: 28px;
+  box-shadow: 0 24px 60px rgba(77, 65, 46, 0.12);
+  overflow: hidden;
+}
+
+.wall-calendar__binder {
+  display: grid;
+  grid-template-columns: repeat(18, 1fr);
+  gap: 8px;
+  padding: 18px 24px 12px;
+  background: linear-gradient(180deg, #f2eee6 0%, #ece4d8 100%);
+}
+
+.wall-calendar__binder span {
+  height: 16px;
+  border: 2px solid #8f8474;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.wall-calendar__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.85fr);
+}
+
+.wall-calendar__calendar {
+  border-right: 1px solid rgba(103, 90, 72, 0.12);
+  background: linear-gradient(180deg, #fffdf8 0%, #fbf7ef 100%);
+}
+
+.hero {
+  position: relative;
+  min-height: 250px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #daeaf1 0%, #f1f6f8 100%);
+}
+
+.hero__sky,
+.hero__peak,
+.hero__sun {
+  position: absolute;
+}
+
+.hero__sky {
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 248, 214, 0.95), transparent 11%),
+    radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.6), transparent 20%);
+}
+
+.hero__peak {
+  left: -3%;
+  right: -3%;
+  bottom: 0;
+  clip-path: polygon(0 100%, 0 64%, 22% 76%, 42% 48%, 63% 68%, 84% 36%, 100% 52%, 100% 100%);
+}
+
+.hero__peak--back {
+  height: 72%;
+  background: linear-gradient(135deg, #8facc2, #53748d);
+}
+
+.hero__peak--front {
+  height: 56%;
+  background: linear-gradient(135deg, #274357, #416983);
+  clip-path: polygon(0 100%, 0 78%, 22% 62%, 40% 74%, 63% 44%, 86% 66%, 100% 52%, 100% 100%);
+}
+
+.hero__sun {
+  top: 28px;
+  left: 40px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 237, 176, 0.9);
+}
+
+.hero__badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  gap: 2px;
+  padding: 16px 28px 16px 42px;
+  color: white;
+  background: #0b7285;
+  clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
+  text-transform: uppercase;
+}
+
+.hero__badge span {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+}
+
+.hero__badge strong {
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+}
+
+.calendar-toolbar,
+.notes-panel {
+  padding: 20px;
+}
+
+.calendar-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.calendar-toolbar h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.calendar-toolbar button,
+.notes-panel__add,
+.note-card button {
+  border: 1px solid rgba(11, 114, 133, 0.22);
+  border-radius: 999px;
+  background: white;
+  color: #0b7285;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.calendar-toolbar button {
+  padding: 10px 14px;
+}
+
+.calendar-toolbar button:hover,
+.notes-panel__add:hover,
+.note-card button:hover {
+  background: #e7f5f7;
+  transform: translateY(-1px);
+}
+
+.calendar-grid {
+  padding: 0 20px 24px;
+}
+
+.calendar-grid__weekdays,
+.calendar-grid__days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.calendar-grid__weekdays {
+  margin-bottom: 10px;
+  color: #816d57;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.calendar-grid__days {
+  gap: 8px;
+}
+
+.calendar-grid__empty,
+.day-cell {
+  aspect-ratio: 1 / 1;
+}
+
+.day-cell {
+  position: relative;
+  border: none;
+  border-radius: 20px;
+  background: transparent;
+  color: #19303a;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.day-cell:hover {
+  background: rgba(11, 114, 133, 0.08);
+}
+
+.day-cell--today {
+  outline: 1px dashed rgba(11, 114, 133, 0.45);
+  outline-offset: -5px;
+}
+
+.day-cell--range {
+  border-radius: 14px;
+  background: #dff2f4;
+}
+
+.day-cell--selected {
+  background: #0b7285;
+  color: white;
+}
+
+.day-cell__dot {
+  position: absolute;
+  right: 11px;
+  bottom: 11px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e9c46a;
+}
+
+.notes-panel {
+  display: grid;
+  gap: 18px;
+  background: #f5efe5;
+}
+
+.notes-panel__block,
+.note-card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(103, 90, 72, 0.1);
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.notes-panel__label,
+.note-card__range {
+  margin: 0 0 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7d6651;
+}
+
+.notes-panel__chip {
+  min-height: 48px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #e7f5f7;
+  color: #0b7285;
+  line-height: 1.5;
+}
+
+.notes-panel textarea {
+  width: 100%;
+  border: 1px solid rgba(103, 90, 72, 0.18);
+  border-radius: 14px;
+  background: white;
+  padding: 12px 14px;
+  resize: vertical;
+  min-height: 92px;
+}
+
+.notes-panel__add {
+  margin-top: 12px;
+  padding: 10px 16px;
+}
+
+.notes-panel__list {
+  display: grid;
+  gap: 12px;
+}
+
+.notes-panel__empty,
+.note-card__text {
+  margin: 0;
+  color: #4f514f;
+  line-height: 1.6;
+}
+
+.note-card {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.note-card button {
+  padding: 8px 12px;
+}
+
+@media (max-width: 900px) {
+  .wall-calendar__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .wall-calendar__calendar {
+    border-right: none;
+    border-bottom: 1px solid rgba(103, 90, 72, 0.12);
+  }
+}
+
+@media (max-width: 640px) {
+  .wall-calendar__binder {
+    gap: 5px;
+    padding: 14px 14px 10px;
+  }
+
+  .calendar-toolbar,
+  .calendar-grid,
+  .notes-panel {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .calendar-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .day-cell {
+    font-size: 0.92rem;
+  }
+
+  .hero {
+    min-height: 210px;
+  }
+}
