@@ -12,8 +12,8 @@
 body {
   margin: 0;
   min-width: 320px;
-  height: 100vh;
-  overflow: hidden; /* App should fit in visible screen */
+  height: 100dvh;
+  overflow: hidden;
 }
 
 button,
@@ -22,7 +22,18 @@ textarea {
 }
 
 #root {
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 740px) {
+  body {
+    overflow: auto;
+    height: auto;
+  }
+  #root {
+    height: auto;
+    min-height: 100dvh;
+  }
 }
