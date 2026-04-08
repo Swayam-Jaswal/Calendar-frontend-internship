@@ -549,15 +549,29 @@ export default function WallCalendar() {
           </div>
 
           {/* Notes header */}
-          <div style={{ padding: "12px 14px 8px", borderBottom: "0.5px solid #ebebeb", background: "#fff" }}>
-            <div style={{ fontSize: 12, fontWeight: 500, color: "#9e9e9e", letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 2 }}>
-              Notes
+          <div style={{ padding: "12px 14px 8px", borderBottom: "0.5px solid #ebebeb", background: "#fff", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+            <div>
+              <div style={{ fontSize: 12, fontWeight: 500, color: "#9e9e9e", letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 2 }}>
+                Notes
+              </div>
+              <div style={{ fontSize: 12, color: "#bdbdbd" }}>
+                {rangeStart
+                  ? `Selected: ${fmtRange(rangeStart, rangeEnd)}`
+                  : "Click a date to start selection"}
+              </div>
             </div>
-            <div style={{ fontSize: 12, color: "#bdbdbd" }}>
-              {rangeStart
-                ? `Selected: ${fmtRange(rangeStart, rangeEnd)}`
-                : "Click a date to start selection"}
-            </div>
+            <button
+               className="wcal-export"
+               onClick={exportNotes}
+               style={{
+                 fontSize: 10, color: "#9e9e9e", background: "#fff",
+                 border: "0.5px solid #d0d0d0", borderRadius: 4,
+                 padding: "3px 8px", cursor: "pointer", fontFamily: "inherit",
+                 transition: "background 0.15s",
+               }}
+            >
+              Export
+            </button>
           </div>
 
           {/* Range chip */}
@@ -693,22 +707,6 @@ export default function WallCalendar() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Export button */}
-      <div style={{ marginTop: 8, display: "flex", justifyContent: "flex-end" }}>
-        <button
-          className="wcal-export"
-          onClick={exportNotes}
-          style={{
-            fontSize: 12, color: "#9e9e9e", background: "#fff",
-            border: "0.5px solid #d0d0d0", borderRadius: 6,
-            padding: "5px 14px", cursor: "pointer", fontFamily: "inherit",
-            transition: "background 0.15s",
-          }}
-        >
-          Export notes (.txt)
-        </button>
       </div>
     </div>
   );
